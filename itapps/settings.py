@@ -79,8 +79,12 @@ WSGI_APPLICATION = 'itapps.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'CBData',
+        'USER': 'Cuthbert',
+        'PASSWORD': 'Baines0809?',
+        'HOST': 'localhost',  # Use 'localhost' if MySQL is running locally
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
@@ -131,3 +135,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'itreporting:home'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+LOGIN_URL = 'itreporting:home'

@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users import views
+from users import views as views
+# from itreporting import views as itreporting_views 
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
