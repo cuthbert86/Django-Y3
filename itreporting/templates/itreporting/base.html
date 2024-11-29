@@ -26,7 +26,7 @@ crossorigin="anonymous">
 <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 <div class="container">
 
-    <a class="navbar-brand mr-4" href="{% url 'itreporting:home' %}">Student IT Services</a>
+    <a class="navbar-brand mr-4" href="{% url 'home' %}">Student IT Services</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse"
 data-target="#navbarToggle"
 aria-controls="navbarToggle" aria-expanded="false" aria-
@@ -35,14 +35,10 @@ label="Toggle navigation">
 </button>
 <div class="collapse navbar-collapse" id="navbarToggle">
 <div class="navbar-nav mr-auto">
-<a class="nav-item nav-link" href="{% url 'itreporting/home'
-%}">Home</a>
-<a class="nav-item nav-link" href="{% url 'itreporting/about'
-%}">About</a>
-<a class="nav-item nav-link" href="{% url 'itreporting:report'
-%}">Report</a>
-<a class="nav-item nav-link" href="{% url 'itreporting/contact'
-%}">Contact</a>
+<a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
+<a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+<a class="nav-item nav-link" href="{% url 'report' %}">Report</a>
+<a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>
 </div>
 <!-- Navbar Right Side -->
 <div class="navbar-nav">
