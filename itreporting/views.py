@@ -5,11 +5,11 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Issue
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
-
+import requests
 # Create your views here.
 
 
-#def home(request):
+# def home(request):
 #    return render(request, 'itreporting/home.html', {'title': 'Welcome'})
 def home(request):
 
@@ -28,7 +28,6 @@ def home(request):
     }  
     weather_data.append(weather) # Add the data for the current city into our list
     return render(request, 'itreporting/home.html', {'title': 'Homepage', 'weather_data': weather_data})
-
 
 
 
