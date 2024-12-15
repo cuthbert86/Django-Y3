@@ -1,0 +1,34 @@
+{% extends "itreporting/base.html" %}
+{% block content %}
+  <h1>Module List</h1>
+
+  <table
+    class="table table-striped"
+    data-toggle="table"
+    data-pagination="true"
+    data-page-size="25"
+    data-page-list="[10, 25, 50, 100, 200, All]"
+    data-search="true"
+    data-advanced-search="true"
+    data-id-table="advancedTable"
+  >
+    <thead>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Avalability</th>
+      <th>Required  Courses</th>
+    </thead>
+    <tbody>
+      {% for Module in module_list %}
+      <tr>
+        <td>{{ Module.name }}</td>
+        <td>{{ Module.Code }}</td>
+        <td>{{ Module.Availability }}</th>
+        <td>{{ Module.Courses }}</td>
+        <td><a href="{% url 'module_details' pk=Module.pk %}">View Details</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'Register' %}" class="btn btn-secondary">Register for this Module</a>
+{% endblock content %}
