@@ -1,18 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-# from django.urls import reverse_lazy
+from django.urls import reverse_lazy
 from .models import Issue
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
 import requests
+
+
 # Create your views here.
-
-
 # def home(request):
-#    return render(request, 'itreporting/home.html', {'title': 'Welcome'})
-def home(request):
+#   return render(request, 'itreporting/home.html', {'title': 'Welcome'})
 
+
+def home(request):
     url = 'https://api.openweathermap.org/data/2.5/weather?q={},{}&units=metric&appid={}'
     cities = [('Sheffield', 'UK'), ('Melaka', 'Malaysia'), ('Bandung', 'Indonesia')]
     weather_data = []
@@ -27,8 +29,8 @@ def home(request):
         'description': city_weather['weather'][0]['description']
     }  
     weather_data.append(weather) # Add the data for the current city into our list
-    return render(request, 'itreporting/home.html', {'title': 'Homepage', 'weather_data': weather_data})
 
+    return render(request, 'itreporting/home.html', {'title': 'Homepage', 'weather_data': weather_data})
 
 
 def about(request):
@@ -39,6 +41,23 @@ def contact(request):
     return render(request, 'itreporting/contact.html', {'title': 'Contact'})
 
 
+def regulations(request):
+    return render(request, 'itreporting/regulations.html', {'title': 'IT Regulations'})
+
+
+def policies(request):
+    return render(request, 'itreporting/policies.html', {'title': 'IT Policies'})
+
+
+class PostListView(ListView):
+    model = Issue
+    ordering = ['-date_submitted']
+    template_name = 'itreporting/report.html'
+    context_object_name = 'issues'
+    paginate_by = 5  # Optional pagination
+
+
+@login_required
 def report(request):
 # Get all reported issues
     issues = Issue.objects.all()
@@ -48,23 +67,21 @@ def report(request):
     return render(request, 'itreporting/report.html', context)
 
 
-class PostListView(ListView):
-    model = Issue
-    ordering = ['-date_submitted']
-    template_name = 'itreporting/report.html'
-    context_object_name = 'issues'
-    paginate_by = 5 # Optional pagination
-
-
 class PostDetailView(DetailView):
     model = Issue
-    template_name = 'itreporting/issue_detail.html'
+    fields = ['type', 'room', 'urgent', 'details']
+
+    @login_required
+    def test_func(self):
+        issue = self.get_object()
+        return self.request.user(issue)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Issue
     fields = ['type', 'room', 'urgent', 'details']
 
+    @login_required
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -74,6 +91,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Issue
     fields = ['type', 'room', 'details']
 
+    @login_required
     def test_func(self):
         issue = self.get_object()
         return self.request.user == issue.author
@@ -81,8 +99,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Issue
-    success_url = 'report'
+    success_url = '/report'
 
+    @login_required
     def test_func(self):
         issue = self.get_object()
         return self.request.user == issue.author

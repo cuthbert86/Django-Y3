@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+# reverse_lazy
 from users import views as user_views
 from itreporting import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from management import views as student_views
 
 
 urlpatterns = [
@@ -30,6 +32,7 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('report',  views.report, name='report'),
     path('/', include('itreporting.urls')),
+    path('itreporting/', include('itreporting.urls')),
     path('contact', views.contact, name='contact'),
 #    path('', include('itreporting.urls')),
     path('register/', user_views.register, name='register'),
@@ -40,6 +43,10 @@ urlpatterns = [
          auth_views.LogoutView.as_view(template_name='users/logout.html'),
          name='logout'),
     path('profile', user_views.profile, name='profile'),
+    path('welcome', student_views.welcome, name='management/welcome'),
+    path('modulelist', student_views.Modulelist, name='management/module_list'),
+    path('module_details', student_views.Module_detail,
+         name='management/module_details'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
