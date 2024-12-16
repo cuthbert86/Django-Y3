@@ -124,5 +124,5 @@ def send_mail_page(request):
                 context['result'] = f'Error sending email: {e}'
         else:
             context['result'] = 'All fields are required'
-    
+
     return render(request, "email.html", context)
