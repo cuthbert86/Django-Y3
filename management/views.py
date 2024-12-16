@@ -47,37 +47,38 @@ class ModuleListView(ListView):
     context_object_name = 'Module'
     paginate_by = 5  # Optional pagination
 
+    @login_required
+    def Modulelist(request):
+        modules = Module.objects.all(ModuleListView)
+        context = {"Name": modules}
+        return render(request, "management/module_list.html", context)
 
-@login_required
-def Modulelist(request):
-    modules = Module.objects.all(ListView)
-    context = {"Name": modules}
-    return render(request, "management/module_list.html", context)
 
-
-@login_required
-def Module_detail(request, Module):
-    Module.objects.get()
-
-    if request.method != "POST":
-        return HttpResponse("<h2>Method Not Allowed</h2>")
-    else:
-
-        Module = request.POST.get('Name')
-        Module.Course_Code = request.POST.get('Course Code')
-        Module.credits = request.POST.get('credits')
-        Module.Category = request.POST.get('Category')
-        Module.Description = request.POST.get('Description')
-        Module.Course = request.POST.get('Course')
-        Module.availabile = request.POST.get('availability')
+class ModuleView(DetailView):
+    model = Module
+    fields = ['Name', 'Course_Code', 'credits', 'Category', 'Description',
+              'Course', 'available']
+    
+    @login_required
+    def Module_detail(request, Module):
+        Module.objects.get()
+        if request.method != "POST":
+            return HttpResponse("<h2>Method Not Allowed</h2>")
+        else:
+            Module = request.POST.get('Name')
+            Module.Course_Code = request.POST.get('Course Code')
+            Module.credits = request.POST.get('credits')
+            Module.Category = request.POST.get('Category')
+            Module.Description = request.POST.get('Description')
+            Module.Course = request.POST.get('Course')
+            Module.availabile = request.POST.get('availability')
         if 'subscribe' in request.POST:
             User = request.POST.get("user")
             User.save()
             messages.info(request, 'You have successfully registered for {{Module.name}}')
 
         if 'unsubscribe' in request.POST:
-            Module.objects.get(
-            User = request.POST.get("user")).delete()
+            Module.objects.get(User=request.POST.get("user")).delete()
             messages.info(request, 'You are no longer registered for  {{Module.name}}')
         return render(request, "management/module_details")
 

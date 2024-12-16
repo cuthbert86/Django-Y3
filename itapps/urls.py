@@ -44,8 +44,8 @@ urlpatterns = [
          name='logout'),
     path('profile', user_views.profile, name='profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
-    path('modulelist', student_views.Modulelist, name='management/module_list'),
-    path('module_details', student_views.Module_detail,
+    path('modulelist', student_views.ModuleListView.as_view, name='management/module_list'),
+    path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
 ]
 

@@ -168,9 +168,9 @@ STORAGES = {
 STATIC_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/static/'
 MEDIA_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/media/'
 
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_USE_TLS = True
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = #sender's email-id
-#EMAIL_HOST_PASSWORD = #password associated with above email-id (not the regular password)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bainescuthbert@gmail.com'
+EMAIL_HOST_PASSWORD = "vxdy mpes bucl cyul"

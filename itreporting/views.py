@@ -7,7 +7,8 @@ from .models import Issue
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
 import requests
-
+from django.core.mail import send_mail
+from itapps import settings
 
 # Create your views here.
 # def home(request):
@@ -105,3 +106,23 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         issue = self.get_object()
         return self.request.user == issue.author
+
+
+def send_mail_page(request):
+    context = {}
+
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        if address and subject and message:
+            try:
+                send_mail(subject, message, settings.EMAIL_HOST_USER, [address])
+                context['result'] = 'Email sent successfully'
+            except Exception as e:
+                context['result'] = f'Error sending email: {e}'
+        else:
+            context['result'] = 'All fields are required'
+    
+    return render(request, "email.html", context)
