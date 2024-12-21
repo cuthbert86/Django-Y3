@@ -1,6 +1,10 @@
 from . import views
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from .views import (PostListView,
+                    PostDetailView, 
+                    PostCreateView, 
+                    PostUpdateView, 
+                    PostDeleteView)
 # from rest_framework import routers
 
 app_name = 'itreporting'
@@ -21,4 +25,6 @@ urlpatterns = [
          name='issue-update'),
     path('issue/<int:pk>/delete/', PostDeleteView.as_view(),
          name='issue-delete'),
+    path('itreporting/send_mail1', views.send_mail1, name='email'),
+    
 ]

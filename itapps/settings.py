@@ -28,7 +28,7 @@ WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = WEBSITE_HOSTNAME == None
 
-# DEBUG = True
+#DEBUG = False
 
 if DEBUG:
     ALLOWED_HOSTS = []

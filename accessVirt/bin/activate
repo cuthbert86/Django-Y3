@@ -73,6 +73,6 @@ export AZURE_DB_HOST='c1027405.mysql.database.azure.com'
 export AZURE_DB_PORT='3306'
 export AZURE_DB_USER='Cuthbert'
 export AZURE_DB_PASSWORD='Baines0809?'
-
+#export SECRET_KEY='6BurngreaveBank!!!'
 export AZURE_SA_NAME="djangostore1"
 export AZURE_SA_KEY="7Xotihl9Nbgv/MWCx5UXNe+tUG9Z2ZcpUly9Resxb1wHmkOZWOpuqhABS9SNpC57OvSnK2RAXnab+AStUbNHFw=="

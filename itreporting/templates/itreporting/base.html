@@ -53,7 +53,7 @@ label="Toggle navigation">
     {% else %}
     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
     <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-    <a class="nav-item nav-link" href="{% url 'profile' %}">Update Profile</a>
+    <a class="nav-item nav-link" href="{% url 'users/profile' %}">Update Profile</a>
     {% endif %}
     </div>
 </div>
@@ -75,6 +75,7 @@ inciderint per eu, ea vis scripta senserit periculis.
 <li class="list-group-item list-group-item-light"> <a href ="{% url 'itreporting:policies' %}">IT Policies</a></li>
 <li class="list-group-item list-group-item-light"><a href="{% url 'itreporting:regulations' %}">IT Regulations</a></li>
 <li class="list-group-item list-group-item-light"><a href="{% url 'management/module_list' %}">List of Modules</a></li>
+<li class="list-group-item list-group-item-light"><a href="{% url 'itreporting:email' %}">Send Email</a></li>
 </ul>
 </p>
 </div>

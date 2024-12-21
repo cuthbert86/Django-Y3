@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -73,7 +74,7 @@ class PostDetailView(DetailView):
     fields = ['type', 'room', 'urgent', 'details']
 
     @login_required
-    def test_func(self):
+    def test_func1(self):
         issue = self.get_object()
         return self.request.user(issue)
 
@@ -93,7 +94,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['type', 'room', 'details']
 
     @login_required
-    def test_func(self):
+    def test_func2(self):
         issue = self.get_object()
         return self.request.user == issue.author
 
@@ -103,12 +104,13 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/report'
 
     @login_required
-    def test_func(self):
+    def test_func3(self):
         issue = self.get_object()
         return self.request.user == issue.author
 
 
-def send_mail_page(request):
+@login_required
+def send_mail1(request):
     context = {}
 
     if request.method == 'POST':
@@ -118,7 +120,8 @@ def send_mail_page(request):
 
         if address and subject and message:
             try:
-                send_mail(subject, message, settings.EMAIL_HOST_USER, [address])
+                send_mail1(subject, message, settings.EMAIL_HOST_USER,
+                           [address])
                 context['result'] = 'Email sent successfully'
             except Exception as e:
                 context['result'] = f'Error sending email: {e}'

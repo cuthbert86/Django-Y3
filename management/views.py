@@ -58,7 +58,7 @@ class ModuleView(DetailView):
     model = Module
     fields = ['Name', 'Course_Code', 'credits', 'Category', 'Description',
               'Course', 'available']
-    
+
     @login_required
     def Module_detail(request, Module):
         Module.objects.get()
