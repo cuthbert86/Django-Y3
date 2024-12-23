@@ -15,8 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-# reverse_lazy
+from django.urls import path, include, reverse_lazy
 from users import views as user_views
 from itreporting import views
 from django.contrib.auth import views as auth_views
@@ -34,17 +33,16 @@ urlpatterns = [
     path('report',  views.report, name='report'), 
     path('/', include('itreporting.urls')),
     path('contact', views.contact, name='contact'),
-#    path('', include('itreporting.urls')),
-    path('register/', user_views.register, name='register'),
-    path('login/', 
-         auth_views.LoginView.as_view(template_name='users/login.html'),
-         name='login'),
+#    path('/', include('itreporting.urls')),
+    path('users', user_views.profile, name='users/profile'),
+    path('register', user_views.register, name='register'),
+    path('login',
+         auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/',
-         auth_views.LogoutView.as_view(template_name='users/logout.html'),
-         name='logout'),
-    path('users/', user_views.profile, name='users/profile'),
+         auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+#    path('users', user_views.profile, name='users/profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
-    path('modulelist', student_views.ModuleListView.as_view, 
+    path('modulelist', student_views.ModuleListView.as_view,
          name='management/module_list'),
     path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
