@@ -2,12 +2,11 @@ from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
 # from django.utils import 
-from datetime import date
+from datetime import datetime, date
 # from django.core.validators import MaxValueValidator
 import os
 from django.conf import settings
 # from rest_framework import serializers
-
 
 # Create your models here.
 
@@ -32,8 +31,8 @@ class Module(models.Model):
     Course = models.CharField(max_length=100),
     avalaible = models.BooleanField(choices=available),
 #    total_spaces = models.IntegerField(),
-    registered_students = models.ManyToManyField(to=User),
-    number_of_students = models.Count(registered_students)
+#    registered_students = models.ManyToManyField(to=User),
+#    number_of_students = models.Count(registered_students)
 
     def __str__(self):
         return f'{self.name}'
@@ -57,3 +56,11 @@ class ContactSubmission(models.Model):
     def __str__(self):
         return f'{self.todaysDate} - {self.subject}'
 
+
+class Registration(models.Model):
+    student = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    Module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    todaysDate = models.DateField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f'{self.student} - {self.Module}'

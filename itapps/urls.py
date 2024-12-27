@@ -30,16 +30,18 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('home', views.home, name='home'),
     path('about', views.about, name='about'),
-    path('report',  views.report, name='report'), 
+    path('report',  views.report, name='report'),
     path('/', include('itreporting.urls')),
     path('contact', views.contact, name='contact'),
 #    path('/', include('itreporting.urls')),
     path('users', user_views.profile, name='users/profile'),
     path('register', user_views.register, name='register'),
     path('login',
-         auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+         auth_views.LoginView.as_view(template_name='login.html'),
+         name='login'),
     path('logout/',
-         auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+         auth_views.LogoutView.as_view(template_name='logout.html'),
+         name='logout'),
 #    path('users', user_views.profile, name='users/profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
     path('modulelist', student_views.ModuleListView.as_view,
@@ -47,15 +49,17 @@ urlpatterns = [
     path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
     path("admin/password_reset/", auth_views.PasswordResetView.
-         as_view(extra_context={"site_header": admin.site.site_header}), 
+         as_view(extra_context={"site_header": admin.site.site_header}),
          name="admin_password_reset",),
     path("admin/password_reset/done/", auth_views.PasswordResetDoneView.
-         as_view(extra_context={"site_header": admin.site.site_header}), 
+         as_view(extra_context={"site_header": admin.site.site_header}),
          name="password_reset_done",),
     path("reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.
-         as_view(extra_context={"site_header": admin.site.site_header}), 
+         as_view(extra_context={"site_header": admin.site.site_header}),
          name="password_reset_complete"),
     path('send_mail1', views.send_mail1, name='email'),
+    path('management/Registration_view', student_views.Registration_view,
+         name='management/registration'),
 ]
 
 

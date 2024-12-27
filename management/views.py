@@ -10,9 +10,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 import requests
-from .models import Module
+from .models import Module, Registration
 from django.http import HttpResponse
-
+from .forms import RegistrationForm
+ 
 # Create your views here.
 
 
@@ -82,46 +83,9 @@ class ModuleView(DetailView):
             messages.info(request, 'You are no longer registered for  {{Module.name}}')
         return render(request, "management/module_details")
 
-"""
+
 @login_required
-def register(request):
-    if request.method == 'POST':
-        form = ModuleRegisterationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            ######################### mail system #################################### 
-            htmly = get_template('user/Email.html')
-            d = { 'username': username }
-            subject, from_email, to = 'welcome', 'your_email@gmail.com', email
-            html_content = htmly.render(d)
-            msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-            ################################################################## 
-            messages.success(request, f'You have just registered for a module')
-            return redirect('welcome')
-    else:
-        form = ModuleRegistrationForm()
-    return render(request, 'management/registration.html', {'form': form, 'title':'Module Registration Form'})
-
-
-
-class ModuleRegisterationForm(request):
-    class Meta:
-        model = Module
-        fields = ['registered_students']
-        
-        if 'subscribe' in request.POST:
-            User = request.POST.get("user")
-            User.save()
-            messages.info(request, 'You have successfully registered for {{Module.name}}')
-
-        if 'unsubscribe' in request.POST:
-            Module.objects.get(
-            User = request.POST.get("user")).delete()
-            messages.info(request, 'You are no longer registered for  {{Module.name}}')
-
-        return render(request, 'welcome.html')
-"""
+def Registration_view(request):
+    context = {}
+    context['form'] = RegistrationForm()
+    return render(request, "management/registration", context)
