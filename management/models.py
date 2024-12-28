@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Count, Model
 from django.contrib.auth.models import User
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 # from django.core.validators import MaxValueValidator
 import os
 from django.conf import settings
@@ -22,15 +22,15 @@ available = [
 
 
 class Module(models.Model):
-    name = models.CharField(primary_key=True, max_length=100, default=''),
-    Course_Code = models.CharField(max_length=50, default=''),
-    credits = models.IntegerField(default=0),
-    category = models.BooleanField(choices=Category),
-    Description = models.TextField(max_length=200, default=''),
-    Course = models.CharField(max_length=100, default=''),
-    avalaible = models.BooleanField(choices=available, default="Yes"),
-#    total_spaces = models.IntegerField(),
-#    registered_students = models.ManyToManyField(to=User),
+    name = models.CharField(primary_key=True, max_length=100, default='')
+    Course_Code = models.CharField(max_length=50, default='0000')
+    credits = models.IntegerField(default=0)
+    category = models.BooleanField(choices=Category, default="voluntary")
+    Description = models.TextField(max_length=200, default='')
+    Course = models.CharField(max_length=100, default='')
+    avalaible = models.BooleanField(choices=available, default="Yes")
+#    total_spaces = models.IntegerField()
+#    registered_students = models.ManyToManyField(to=User)
 #    number_of_students = models.Count(registered_students)
 
     def __str__(self):
@@ -38,7 +38,7 @@ class Module(models.Model):
 
 
 class Course(models.Model):
-    name = models.CharField(primary_key=True, max_length=40),
+    name = models.CharField(primary_key=True, max_length=40, default='')
     module = models.ForeignKey(to=Module, on_delete=models.PROTECT)
 
     def __str__(self):

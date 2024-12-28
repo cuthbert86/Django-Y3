@@ -100,8 +100,8 @@ class AddModuleView(CreateView):
             form = ModuleForm(request.POST or None)
         if form.is_valid():
             form.save()  # Save the module to the database
-            return redirect('module_list')  # Redirect to the module list page or any other page
+            return redirect(request, 'add_module')  # Redirect to the module list page or any other page
         else:
             form = ModuleForm()
 
-        return render(request, 'add_module.html', {'form': form})
+        return render(request, 'add_module', {'form': form})

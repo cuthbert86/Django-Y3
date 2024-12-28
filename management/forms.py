@@ -43,7 +43,7 @@ class RegistrationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.instance.user = user  # Set the logged-in user automatically
-        self.instance.registration_time = timezone.now()  # Set the current time
+            self.instance.registration_time = timezone.now()  # Set the current time
 
 
 @login_required
