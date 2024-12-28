@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit
-from datetime import datetime
+from django.utils import timezone
 
 
 @login_required
@@ -35,24 +35,42 @@ class ContactForm(forms.ModelForm):
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Registration
-        Module = Module.objects
-        fields = ['student', 'Module']
+        fields = ['Module']  # User will select the module
 
-    def __init__(self, Module, *args, **kwargs):
+    # This method is used to set the fields for user and registration_time automatically
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Get the current user from view
+        super().__init__(*args, **kwargs)
+        if user:
+            self.instance.user = user  # Set the logged-in user automatically
+        self.instance.registration_time = timezone.now()  # Set the current time
+
+
+@login_required
+class ModuleForm(forms.ModelForm):
+    model = Module
+    fields = [
+            'name',
+            'Course_Code',
+            'credits',
+            'category',
+            'Description',
+            'Course',
+            'available',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
-                'student',
-                'Module',
+                'name',
+                'Course_Code',
+                'credits',
+                'category',
+                'Description',
+                'Course',
+                'available',
             ),
             Submit('submit', 'Submit', css_class='button white'),
         )
-
-    def save(self, commit=True):
-        Registration = super().save(commit=False)
-        self.student = self.student
-        self.module = Module.name
-        if commit:
-            Registration.save()
-
-        return Registration

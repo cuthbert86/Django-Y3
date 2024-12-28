@@ -1,7 +1,6 @@
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Model
 from django.contrib.auth.models import User
-# from django.utils import 
 from datetime import datetime, date
 # from django.core.validators import MaxValueValidator
 import os
@@ -58,9 +57,9 @@ class ContactSubmission(models.Model):
 
 
 class Registration(models.Model):
-    student = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     Module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    todaysDate = models.DateField(auto_now_add=True, null=True)
+    registration_time = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return f'{self.student} - {self.Module}'
+        return f'{self.user} - {self.Module}'

@@ -12,8 +12,8 @@ from django.template import Context
 import requests
 from .models import Module, Registration
 from django.http import HttpResponse
-from .forms import RegistrationForm
- 
+from .forms import RegistrationForm, ModuleForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -42,12 +42,6 @@ def Courses(request):
 
 
 class ModuleListView(ListView):
-    url = 'https://registrationapp-sp2292.azurewebsites.net/api/modules/'
-    Module_data = []
-    template_name = 'management/module_list.html'
-    context_object_name = 'Module'
-    paginate_by = 5  # Optional pagination
-
     @login_required
     def Modulelist(request):
         modules = Module.objects.all(ModuleListView)
@@ -73,19 +67,34 @@ class ModuleView(DetailView):
             Module.Description = request.POST.get('Description')
             Module.Course = request.POST.get('Course')
             Module.availabile = request.POST.get('availability')
-        if 'subscribe' in request.POST:
-            User = request.POST.get("user")
-            User.save()
-            messages.info(request, 'You have successfully registered for {{Module.name}}')
-
-        if 'unsubscribe' in request.POST:
-            Module.objects.get(User=request.POST.get("user")).delete()
-            messages.info(request, 'You are no longer registered for  {{Module.name}}')
         return render(request, "management/module_details")
 
 
 @login_required
 def Registration_view(request):
-    context = {}
-    context['form'] = RegistrationForm()
-    return render(request, "management/registration", context)
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST, user=request.user)  # Pass the current logged-in user
+        if form.is_valid():
+            form.save()  # Save the registration
+            return redirect('module_success')  # Redirect to a success page
+    else:
+        form = RegistrationForm(user=request.user)  # Pass the user to the form
+
+    return render(request, 'management/registration', {'form': form})
+
+
+def success_view(request):
+    return render(request, 'success.html')
+
+
+@login_required
+def add_module(request):
+    if request.method == 'POST':
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the module to the database
+            return redirect('module_list')  # Redirect to the module list page or any other page
+    else:
+        form = ModuleForm()
+
+    return render(request, 'add_module.html', {'form': form})

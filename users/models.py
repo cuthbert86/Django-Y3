@@ -9,7 +9,7 @@ from django.contrib import admin
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE)
+        User, primary_key=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=10)
     last_name = models.CharField(max_length=10)
     StudentOrStaff = models.CharField(max_length=100, choices=[
@@ -25,5 +25,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} + {self.user.last_name}'
-
-

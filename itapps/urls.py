@@ -34,8 +34,8 @@ urlpatterns = [
     path('/', include('itreporting.urls')),
     path('contact', views.contact, name='contact'),
 #    path('/', include('itreporting.urls')),
-    path('users', user_views.profile, name='users/profile'),
-    path('register', user_views.register, name='register'),
+    path('users/profile', user_views.profile, name='users/profile'),
+    path('users/register', user_views.register, name='users/register'),
     path('login',
          auth_views.LoginView.as_view(template_name='login.html'),
          name='login'),
@@ -60,6 +60,8 @@ urlpatterns = [
     path('send_mail1', views.send_mail1, name='email'),
     path('management/Registration_view', student_views.Registration_view,
          name='management/registration'),
+    path('success/', student_views.success_view, name='module_success'),
+    path('add-module/', student_views.add_module, name='management/add_module'),
 ]
 
 
