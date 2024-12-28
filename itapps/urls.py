@@ -61,7 +61,8 @@ urlpatterns = [
     path('management/Registration_view', student_views.Registration_view,
          name='management/registration'),
     path('success/', student_views.success_view, name='module_success'),
-    path('add-module/', student_views.add_module, name='management/add_module'),
+    path('add-module/', student_views.AddModuleView.as_view(template_name='add_module.html'),
+         name='management/add_module'),
 ]
 
 

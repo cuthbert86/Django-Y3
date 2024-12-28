@@ -11,7 +11,7 @@ from django.conf import settings
 
 
 Category = [
-   ("compulsary", "voluntary"),
+   ("compulsary", "compulsary"),
    ("voluntary", "voluntary")
 ]
 
@@ -22,13 +22,13 @@ available = [
 
 
 class Module(models.Model):
-    name = models.CharField(primary_key=True, max_length=100),
-    Course_Code = models.CharField(max_length=50),
-    credits = models.IntegerField(),
+    name = models.CharField(primary_key=True, max_length=100, default=''),
+    Course_Code = models.CharField(max_length=50, default=''),
+    credits = models.IntegerField(default=0),
     category = models.BooleanField(choices=Category),
-    Description = models.TextField(max_length=200),
-    Course = models.CharField(max_length=100),
-    avalaible = models.BooleanField(choices=available),
+    Description = models.TextField(max_length=200, default=''),
+    Course = models.CharField(max_length=100, default=''),
+    avalaible = models.BooleanField(choices=available, default="Yes"),
 #    total_spaces = models.IntegerField(),
 #    registered_students = models.ManyToManyField(to=User),
 #    number_of_students = models.Count(registered_students)

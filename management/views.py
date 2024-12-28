@@ -4,16 +4,18 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-# from .forms import ModuleRegistrationForm
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 import requests
-from .models import Module, Registration
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import DeleteView
+from .models import Module, Registration, Course
 from django.http import HttpResponse
 from .forms import RegistrationForm, ModuleForm
 from django.contrib.auth.models import User
+from itapps import settings
 # Create your views here.
 
 
@@ -87,14 +89,19 @@ def success_view(request):
     return render(request, 'success.html')
 
 
-@login_required
-def add_module(request):
-    if request.method == 'POST':
-        form = ModuleForm(request.POST)
+class AddModuleView(CreateView):
+    model = Module
+    fields = ['Name', 'Course_Code', 'credits', 'Category', 'Description',
+              'Course', 'available']
+
+    @login_required
+    def add_module(self, form, request):
+        if request.method == 'POST':
+            form = ModuleForm(request.POST or None)
         if form.is_valid():
             form.save()  # Save the module to the database
             return redirect('module_list')  # Redirect to the module list page or any other page
-    else:
-        form = ModuleForm()
+        else:
+            form = ModuleForm()
 
-    return render(request, 'add_module.html', {'form': form})
+        return render(request, 'add_module.html', {'form': form})

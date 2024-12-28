@@ -1,17 +1,16 @@
 {% extends "itreporting/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <title>Add Module</title>
-</head>
-<body>
-    <h2>Add Module</h2>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Render the form fields -->
-        <button type="submit">Add Module</button>
-    </form>
-    {% endblock content %}
-</body>
-
-</html>
+    {% if title %}
+        <h4>{{ add_module }}</h4>
+    {% endif %}
+    <div class="content-section">
+        <form action="" method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {% crispy form %}
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}
