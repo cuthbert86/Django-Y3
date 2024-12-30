@@ -44,8 +44,8 @@ urlpatterns = [
          name='logout'),
 #    path('users', user_views.profile, name='users/profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
-    path('modulelist', student_views.ModuleListView.as_view,
-         name='management/module_list'),
+    path('management/module_list', student_views.ModuleListView.as_view(
+         template_name='module_list.html'), name='management/module_list'),
     path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
     path("admin/password_reset/", auth_views.PasswordResetView.

@@ -44,8 +44,13 @@ def Courses(request):
 
 
 class ModuleListView(ListView):
+    model = Module
+    template_name = 'management/module_list.html'
+    context_object_name = {"Name": Module}
+    paginate_by = 5  # Optional pagination
+
     @login_required
-    def Modulelist(request):
+    def modulelist(request):
         modules = Module.objects.all(ModuleListView)
         context = {"Name": modules}
         return render(request, "management/module_list.html", context)
