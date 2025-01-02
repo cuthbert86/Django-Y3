@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your_current_secret_key_value')
 WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', None)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = WEBSITE_HOSTNAME = None
+DEBUG = WEBSITE_HOSTNAME == None
 
 # DEBUG = False
 

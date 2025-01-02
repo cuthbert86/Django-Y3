@@ -16,6 +16,7 @@ from django.http import HttpResponse
 from .forms import RegistrationForm, ModuleForm, CourseForm
 from django.contrib.auth.models import User
 from itapps import settings
+from django.urls import reverse_lazy
 # Create your views here.
 
 
@@ -43,16 +44,9 @@ def Courses(request):
     return render(request, 'management/courses.html', {'title': 'Courses'})
 
 
-class ModuleListView(ListView):
-    model = Module
-    template_name = 'management/module_list.html'
-    context_object_name = {"Name": Module}
-    paginate_by = 5  # Optional pagination
-
-    @login_required
-    def module_list(request):
-        modules = Module.objects.all()  # Fetch all module instances
-        return render(request, 'module_list.html', {'modules': modules})
+def module_list(request):
+    modules = Module.objects.all()
+    return render(request, 'management/module_list.html', {'modules': modules})
 
 
 class ModuleView(DetailView):
@@ -66,7 +60,7 @@ class ModuleView(DetailView):
         if request.method != "POST":
             return HttpResponse("<h2>Method Not Allowed</h2>")
         else:
-            Module = request.POST.get('Name')
+            Module.name = request.POST.get('Name')
             Module.Course_Code = request.POST.get('Course Code')
             Module.credits = request.POST.get('credits')
             Module.Category = request.POST.get('Category')
@@ -111,19 +105,18 @@ class AddModuleView(CreateView):
         return render(request, 'add_module', {'form': form})
 
 
-class AddCourseView(CreateView):
+class AddCourseView(LoginRequiredMixin, CreateView):
     model = Course
-    fields = ['name'
-              ]
-
+    fields = ['name', 'module']
+    template_name = 'management/add_course.html'
+    success_url = reverse_lazy('management/module_list')  # Redirect to the module list page or any other page
+    
     @login_required
-    def add_course(self, form, request):
-        if request.method == 'POST':
-            form = CourseForm(request.POST or None)
-        if form.is_valid():
-            form.save()  # Save the module to the database
-            return redirect(request, 'add_course')  # Redirect to the module list page or any other page
-        else:
-            form = CourseForm()
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # Assuming you want to associate the course with the logged-in user
+        return super().form_valid(form)
 
-        return render(request, 'add_course', {'form': form})
+@login_required
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'management/course_list.html', {'courses': courses})

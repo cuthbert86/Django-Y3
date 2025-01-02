@@ -6,7 +6,7 @@ from datetime import datetime, date, timezone
 import os
 from django.conf import settings
 # from rest_framework import serializers
-
+from django.urls import reverse
 # Create your models here.
 
 
@@ -34,7 +34,10 @@ class Module(models.Model):
 #    number_of_students = models.Count(registered_students)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} Module in {self.Description}'
+
+    def get_absolute_url(self):
+        return reverse('management/module_details', kwargs={'pk': self.pk})
 
 
 class Course(models.Model):

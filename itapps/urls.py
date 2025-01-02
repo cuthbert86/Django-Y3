@@ -44,8 +44,7 @@ urlpatterns = [
          name='logout'),
 #    path('users', user_views.profile, name='users/profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
-    path('module_list/', student_views.ModuleListView.as_view(
-         template_name='module_list.html'), name='management/module_list'),
+    path('module_list/', student_views.module_list, name='management/module_list'),
     path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
     path("admin/password_reset/", auth_views.PasswordResetView.
@@ -63,8 +62,8 @@ urlpatterns = [
     path('success/', student_views.success_view, name='module_success'),
     path('add-module/', student_views.AddModuleView.as_view(
          template_name='add_module.html'), name='management/add_module'),
-    path('add-course/', student_views.AddCourseView.as_view(
-         template_name='add_course.html'), name='management/add_course'),
+    path('add_course/', student_views.AddCourseView.as_view(), name='add_course'),
+    path('course_list/', student_views.course_list, name='management/course_list'),
 ]
 
 
