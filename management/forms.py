@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from users.models import Profile
-from .models import Module, ContactSubmission, Registration
+from .models import Module, ContactSubmission, Registration, Course
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -71,6 +71,24 @@ class ModuleForm(forms.ModelForm):
                 'Description',
                 'Course',
                 'available',
+            ),
+            Submit('submit', 'Submit', css_class='button white'),
+        )
+
+
+@login_required
+class CourseForm(forms.ModelForm):
+    model = Course
+    fields = [
+            'name',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                'name',
             ),
             Submit('submit', 'Submit', css_class='button white'),
         )

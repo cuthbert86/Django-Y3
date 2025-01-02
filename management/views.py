@@ -13,7 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
 from .models import Module, Registration, Course
 from django.http import HttpResponse
-from .forms import RegistrationForm, ModuleForm
+from .forms import RegistrationForm, ModuleForm, CourseForm
 from django.contrib.auth.models import User
 from itapps import settings
 # Create your views here.
@@ -50,10 +50,9 @@ class ModuleListView(ListView):
     paginate_by = 5  # Optional pagination
 
     @login_required
-    def modulelist(request):
-        modules = Module.objects.all(ModuleListView)
-        context = {"Name": modules}
-        return render(request, "management/module_list.html", context)
+    def module_list(request):
+        modules = Module.objects.all()  # Fetch all module instances
+        return render(request, 'module_list.html', {'modules': modules})
 
 
 class ModuleView(DetailView):
@@ -110,3 +109,21 @@ class AddModuleView(CreateView):
             form = ModuleForm()
 
         return render(request, 'add_module', {'form': form})
+
+
+class AddCourseView(CreateView):
+    model = Course
+    fields = ['name'
+              ]
+
+    @login_required
+    def add_course(self, form, request):
+        if request.method == 'POST':
+            form = CourseForm(request.POST or None)
+        if form.is_valid():
+            form.save()  # Save the module to the database
+            return redirect(request, 'add_course')  # Redirect to the module list page or any other page
+        else:
+            form = CourseForm()
+
+        return render(request, 'add_course', {'form': form})

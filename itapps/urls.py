@@ -44,7 +44,7 @@ urlpatterns = [
          name='logout'),
 #    path('users', user_views.profile, name='users/profile'),
     path('welcome', student_views.welcome, name='management/welcome'),
-    path('management/module_list', student_views.ModuleListView.as_view(
+    path('module_list/', student_views.ModuleListView.as_view(
          template_name='module_list.html'), name='management/module_list'),
     path('module_details', student_views.ModuleView.as_view,
          name='management/module_details'),
@@ -61,8 +61,10 @@ urlpatterns = [
     path('management/Registration_view', student_views.Registration_view,
          name='management/registration'),
     path('success/', student_views.success_view, name='module_success'),
-    path('add-module/', student_views.AddModuleView.as_view(template_name='add_module.html'),
-         name='management/add_module'),
+    path('add-module/', student_views.AddModuleView.as_view(
+         template_name='add_module.html'), name='management/add_module'),
+    path('add-course/', student_views.AddCourseView.as_view(
+         template_name='add_course.html'), name='management/add_course'),
 ]
 
 
