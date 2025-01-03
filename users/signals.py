@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
 
-
+"""
 @receiver(post_save, sender=User) 
 def create_profile(sender, instance, created, **kwargs):
     if created:
@@ -14,7 +14,7 @@ def create_profile(sender, instance, created, **kwargs):
 def save_profile(sender, instance, **kwargs):
     instance.User.save(user=instance)
     
-    
+""" 
 """
 @receiver(pre_save, sender=User) 
 def checker(sender, instance, **kwargs):

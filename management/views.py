@@ -44,9 +44,11 @@ def Courses(request):
     return render(request, 'management/courses.html', {'title': 'Courses'})
 
 
+@login_required
 def module_list(request):
     modules = Module.objects.all()
-    return render(request, 'management/module_list.html', {'modules': modules})
+    context = {'modules': modules}
+    return render(request, 'management/module_list.html', context)
 
 
 class ModuleView(DetailView):
@@ -115,6 +117,7 @@ class AddCourseView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user  # Assuming you want to associate the course with the logged-in user
         return super().form_valid(form)
+
 
 @login_required
 def course_list(request):

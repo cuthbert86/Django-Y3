@@ -81,6 +81,7 @@ class CourseForm(forms.ModelForm):
     model = Course
     fields = [
             'name',
+            'module',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -89,6 +90,7 @@ class CourseForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 'name',
+                'module',
             ),
             Submit('submit', 'Submit', css_class='button white'),
         )
