@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-0_c$6g&_3*77lb%a2+n!qupspb9-%!yj2bik3t_blbi)gg2sgc'
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'your_current_secret_key_value')
+SECRET_KEY = os.environ.get('SECRET_KEY', '6BurngreaveBank!!!')
 WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = WEBSITE_HOSTNAME == None
